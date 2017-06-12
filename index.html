@@ -24,10 +24,13 @@
 
 <body>
 
+    <p id="zoom" class="hide">Too small? Pinch to zoom.</p>
     <a href="http://schultheiss.io" id="smiley">😁</a>
+    <a href="https://github.com/0x213F/shrine-finder" id="source">👨🏻‍🔬</a>
+
 
     <!-- TODO change "main" to a better name -->
-    <div class="card main">
+    <div id="setup" class="main center card ">
 
         <div class="card-header">
             <h2 style="text-align: center; font-weight: bold;">shrine-finder</h2>
@@ -60,8 +63,8 @@
             <h6 class="card-subtitle">Same thing, but now the bottom-left corner of the screen, then take a screenshot. It should look just like <a href="#" id="showeximg2">this</a>.</h6>
         </div>
 
-        <div id="eximg1" class="card-image hide">
-            <img src="./media/tests/test1.png" class="img-responsive" />
+        <div id="eximg2" class="card-image hide">
+            <img src="./media/tests/test2.png" class="img-responsive" />
         </div>
 
         <div class="card-body">
@@ -70,10 +73,10 @@
 
     </div>
 
-    <canvas id="map1" class="hide"></canvas>
+    <canvas id="map1" class="hide" style="margin-top: -10px;"></canvas>
 
     <!-- not sure why this margin-top is needed, can anyone example this to me? -->
-    <canvas id="map2" class="hide" style="margin-top: -5px;"></canvas>
+    <canvas id="map2" class="hide" style="margin-bottom: 10px;"></canvas>
 
     <script src="js/constants.js"></script>
     <script src="js/functions.js"></script>

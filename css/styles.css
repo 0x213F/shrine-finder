@@ -8,23 +8,38 @@
     position: fixed;
     bottom: 10px;
     right: 10px;
+    text-decoration: none;
+}
+
+#source {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    text-decoration: none;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.zoom {
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #D0D0D0;
 }
 
 /* TODO change "main" to a better name */
 /* TODO condense styles */
 .main {
     max-width: 300px;
-    display: block;
     margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .photo {
-    display: block;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
     border-left: 10px;      /* this seems like a little bit of a hack */
     border-right: 10px;
     border-bottom: 10px;

@@ -1,3 +1,32 @@
+function loadDemoImages(idx) {
+
+    function loadImage(idx) {
+
+        if(idx > 1) {
+            generateMap();
+            return;
+        }
+
+        var img = new Image();
+        img.onload = function() {
+            var canvas     = document.createElement('canvas');
+            canvas.height  = img.height;
+            canvas.width   = img.width;
+            canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+            var pixels     = canvas.getContext("2d")
+                                   .getImageData(trim.SIDE,
+                                                 trim["TOP" + idx],
+                                                 canvas.width - 2*trim.SIDE,
+                                                 canvas.height - trim["TOP"+idx] - trim["BOT"+idx]);
+            SYSTEMS["switch" + img.height].test[idx] = pixels;
+            loadImage(idx+1);
+        };
+        img.src = "./media/tests/test" + (idx + 1) + ".png";
+    }
+
+    loadImage(0);
+}
+
 function verifyImage(btnId, iconId, file, idx) {
 
     function displaySuccess() {
@@ -48,9 +77,29 @@ function verifyImage(btnId, iconId, file, idx) {
 
 }
 
+function imageToCanvas(idx, resolution) {
+    var img        = SYSTEMS["switch" + resolution].answers[idx];
+    var canvas     = document.createElement('canvas');
+    canvas.height  = img.height;
+    canvas.width   = img.width;
+    canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+    var pixels     = canvas.getContext("2d")
+                           .getImageData(trim.SIDE,
+                                         trim["TOP"+idx],
+                                         canvas.width - 2*trim.SIDE,
+                                         canvas.height - trim["TOP"+idx] - trim["BOT"+idx]);
+    SYSTEMS["switch" + resolution].answers[idx] = pixels;
+}
+
 function generateMap() {
     highlightShrines("map1", 0);
     highlightShrines("map2", 1);
+    document.getElementById("setup").className = "hide";
+    document.getElementById("zoom").className = "zoom";
+    document.body.style.backgroundColor = "#202020";
+    document.getElementById("map1").style.maxWidth = window.innerWidth - 20 + "px";
+    document.getElementById("map2").style.maxWidth = window.innerWidth - 20 + "px";
+
 }
 
 // TODO impliment comparison with master image
@@ -82,7 +131,7 @@ function highlightShrines(canvasId, half) {
         canvas.height    = 720 - trim["TOP" + half] - trim["BOT" + half];
         canvas.width     = 1280 - trim.SIDE*2;
         canvas.getContext('2d').putImageData(SYSTEMS.switch720.answers[half], 0, 0);
-        canvas.className = 'photo';
+        canvas.className = 'photo center';
                                              /* [4] */
 
     // approximate range of color values for shrine icons

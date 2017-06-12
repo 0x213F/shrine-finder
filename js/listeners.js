@@ -33,3 +33,8 @@ document.getElementById("showeximg2").addEventListener("click", function() {
         document.getElementById("eximg2").className = "card-image hide";
     }
 });
+
+/////////////////////////////////////////////////////////////////////////////////////
+document.getElementById("demo").addEventListener("click", function() {
+    loadDemoImages();
+});
