@@ -82,7 +82,7 @@ function highlightShrines(canvasId, half) {
         canvas.height    = 720 - trim["TOP" + half] - trim["BOT" + half];
         canvas.width     = 1280 - trim.SIDE*2;
         canvas.getContext('2d').putImageData(SYSTEMS.switch720.answers[half], 0, 0);
-        canvas.className = '';
+        canvas.className = 'photo';
                                              /* [4] */
 
     // approximate range of color values for shrine icons
