@@ -4,6 +4,11 @@
     margin: 0px;
 }
 
-.hide {
-    display: none;
+/* TODO change "main" to a better name */
+.main {
+    max-width: 300px;
+    display: block;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }

@@ -3,23 +3,78 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-
-    <title>BOTW</title>
     <meta name="description" content="Upload screenshots to see what shrines you have yet to find and complete">
     <meta name="author" content="Joshua Schultheiss">
 
+    <title>shrine-finder</title>
+
+    <!-- Spectre.css ~ The lightweight, responsive and modern CSS framework -->
+    <!--                                                                    -->
+    <!--               https://picturepan2.github.io/spectre/               -->
+    <!--                                                                    -->
+    <link rel="stylesheet" href="packages/spectre/spectre.min.css">
+    <link rel="stylesheet" href="packages/spectre/spectre-icons.min.css">
+
+    <!-- custom styles -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
+<!-- min width supported ~ 320px -->
+
 <body>
+
+    <!-- TODO change "main" to a better name -->
+    <div class="card main">
+
+        <div class="card-header">
+            <h2 style="text-align: center; font-weight: bold;">shrine-finder</h2>
+            <h6 class="card-subtitle">Upload screenshots to see what shrines you have yet to find and complete.</h6>
+            <h6 class="card-subtitle">This tool supports both docked mode (1080p) and tablet mode (720p).</h6>
+            <h6 class="card-subtitle">Are you just here for fun? <a href="#" id="demo">Try the demo</a>.</h6>
+        </div>
+
+        <div class="card-header">
+            <input id="uploadimg1" type="file" class="hide"/>
+            <button id="uploadimg1ptr" class="btn btn-primary float-right"><i id="uploadimgicon1" class="icon icon-upload"></i></button>
+            <div class="card-title">Upload First Image</div>
+        </div>
+
+        <div class="card-header">
+            <h6 class="card-subtitle">Open your map and put your cursor in the upper-left corner of the screen, then take a screenshot. It should look just like <a href="#" id="showeximg1">this</a>.</h6>
+        </div>
+
+        <div id="eximg1" class="card-image hide">
+            <img src="./media/tests/test1.png" class="img-responsive" />
+        </div>
+
+        <div class="card-header">
+            <input id="uploadimg2" type="file" class="hide"/>
+            <button id="uploadimg2ptr" class="btn btn-primary float-right"><i id="uploadimgicon2" class="icon icon-upload"></i></button>
+            <div class="card-title">Upload Second Image</div>
+        </div>
+
+        <div class="card-header">
+            <h6 class="card-subtitle">Same thing, but now the bottom-left corner of the screen, then take a screenshot. It should look just like <a href="#" id="showeximg2">this</a>.</h6>
+        </div>
+
+        <div id="eximg1" class="card-image hide">
+            <img src="./media/tests/test1.png" class="img-responsive" />
+        </div>
+
+        <div class="card-body">
+            <button id="generate" class="btn btn-primary disabled" style="width: 100%;">🌎</button>
+        </div>
+
+    </div>
 
     <canvas id="map1" class="hide"></canvas>
 
     <!-- not sure why this margin-top is needed, can anyone example this to me? -->
-    <canvas id="map2" class="hide" style="margin-top: -4px;"></canvas>
+    <canvas id="map2" class="hide" style="margin-top: -5px;"></canvas>
 
     <script src="js/constants.js"></script>
     <script src="js/functions.js"></script>
+    <script src="js/listeners.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

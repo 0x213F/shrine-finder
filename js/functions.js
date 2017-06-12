@@ -1,50 +1,89 @@
-// TODO write descriptive comment here
-// TODO impliment function
-function determinePlatform() {
-    return SWITCH720;
+function verifyImage(btnId, iconId, file, idx) {
+
+    function displaySuccess() {
+        var node = document.getElementById(btnId);
+        node.style.backgroundColor = "#9cc657";
+        node.style.borderColor = "#94c24c";
+
+        node = document.getElementById(iconId);
+        node.className = "icon icon-check";
+
+        node = document.getElementById("generate");
+        var cn1 = document.getElementById("uploadimgicon1").className,
+            cn2 = document.getElementById("uploadimgicon2").className;
+
+        if(cn1 === "icon icon-check" && cn2 === "icon icon-check") {
+            node.className = "btn btn-primary";
+        }
+
+    }
+
+    // https://www.html5rocks.com/en/tutorials/file/dndfiles/
+    var reader = new FileReader();
+    reader.onload = (function(f) {
+        return function(e) {
+            console.log(idx);
+            var img = new Image();
+            img.onload = function() {
+                var canvas     = document.createElement('canvas');             /* [1] */
+                canvas.height  = img.height;
+                canvas.width   = img.width;
+                canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+                console.log(img.height)
+                var pixels     = canvas.getContext("2d")
+                                       .getImageData(trim.SIDE,
+                                                     trim["TOP" + idx],
+                                                     canvas.width - 2*trim.SIDE,
+                                                     canvas.height - trim["TOP"+idx] - trim["BOT"+idx]);
+                SYSTEMS["switch" + img.height].test[idx] = pixels;
+            };
+            console.log(e.target)
+            img.src = e.target.result;
+        }
+    })(file);
+    reader.readAsDataURL(file);
+
+    // TODO input validation
+    displaySuccess();
+
+}
+
+function generateMap() {
+    highlightShrines("map1", 0);
+    highlightShrines("map2", 1);
 }
 
 // TODO impliment comparison with master image
 // paint unvisited shrines red
-function highlightShrines(canvasId, imgSrc, half) {
-
-    // paint the image on the canvas
-    var img = new Image();                                              /* [3] */
-    img.onload = function() {
-        var canvas     = document.getElementById(canvasId);             /* [1] */
-        canvas.height  = img.height;
-        canvas.width   = img.width;
-        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        // trim the image to just show the map
-        var pixels     = canvas.getContext("2d")
-                               .getImageData(trim.SIDE,
-                                             trim["TOP" + half],
-                                             canvas.width - 2*trim.SIDE,
-                                             canvas.height - trim["TOP"+half] - trim["BOT"+half]);
+function highlightShrines(canvasId, half) {
 
         // iterate through each pixel
-        for(var idx = 0 ; idx < pixels.data.length ; idx += 4) {        /* [2] */
+        for(var idx = 0 ; idx < SYSTEMS.switch720.test[half].data.length ; idx += 4) {        /* [2] */
 
-            var r = pixels.data[idx+0],
-                g = pixels.data[idx+1],
-                b = pixels.data[idx+2];  /* NOTE: ignore the opacity parameter */
+            /* NOTE: ignore the opacity parameter */
 
-            if(isBlue(r, g, b)) {
-                drawBluePixel(pixels.data, idx);
+            var rt = SYSTEMS.switch720.test[half].data[idx+0],
+                gt = SYSTEMS.switch720.test[half].data[idx+1],
+                bt = SYSTEMS.switch720.test[half].data[idx+2],
+                ra = SYSTEMS.switch720.answers[half].data[idx+0],
+                ga = SYSTEMS.switch720.answers[half].data[idx+1],
+                ba = SYSTEMS.switch720.answers[half].data[idx+2];
+
+            if(isBlue(ra, ga, ba) && !isBlue(rt, gt, bt)) {
+                drawBluePixel(SYSTEMS.switch720.answers[half].data, idx);
             } else {
-                desaturatePixel(pixels.data, idx);
+                desaturatePixel(SYSTEMS.switch720.answers[half].data, idx);
             }
 
         }
 
+        var canvas     = document.getElementById(canvasId);             /* [1] */
         // repaint the image on the canvas
-        canvas.height    = img.height - trim["TOP" + half] - trim["BOT" + half];
-        canvas.width     = img.width - trim.SIDE*2;
-        canvas.getContext('2d').putImageData(pixels, 0, 0);
+        canvas.height    = 720 - trim["TOP" + half] - trim["BOT" + half];
+        canvas.width     = 1280 - trim.SIDE*2;
+        canvas.getContext('2d').putImageData(SYSTEMS.switch720.answers[half], 0, 0);
         canvas.className = '';
-    };
-    img.src = imgSrc;                                                   /* [4] */
+                                             /* [4] */
 
     // approximate range of color values for shrine icons
     function isBlue(r, g, b) {
