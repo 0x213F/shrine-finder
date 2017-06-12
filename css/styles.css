@@ -6,15 +6,15 @@
 
 #smiley {
     position: fixed;
-    bottom: 10px;
-    right: 10px;
+    bottom: 30px;
+    right: 30px;
     text-decoration: none;
 }
 
 #source {
     position: fixed;
-    bottom: 10px;
-    left: 10px;
+    bottom: 30px;
+    left: 30px;
     text-decoration: none;
 }
 
@@ -29,12 +29,11 @@
     padding: 10px;
     font-size: 20px;
     font-weight: bold;
-    color: #D0D0D0;
+    text-shadow: 0px 0px 100px white;
+    color: white;
 }
 
-/* TODO change "main" to a better name */
-/* TODO condense styles */
-.main {
+.mainForm {
     max-width: 300px;
     margin-top: 10px;
 }

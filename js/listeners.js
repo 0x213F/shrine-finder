@@ -1,6 +1,6 @@
 document.getElementById("generate").addEventListener("click", generateMap);
+document.getElementById("demo").addEventListener("click", loadDemoImages);
 
-// https://stackoverflow.com/questions/5281430/how-to-change-choose-file-into-browse
 document.getElementById("uploadimg1ptr").addEventListener("click", function() {
     document.getElementById("uploadimg1").click();
 });
@@ -32,9 +32,4 @@ document.getElementById("showeximg2").addEventListener("click", function() {
     } else {
         document.getElementById("eximg2").className = "card-image hide";
     }
-});
-
-/////////////////////////////////////////////////////////////////////////////////////
-document.getElementById("demo").addEventListener("click", function() {
-    loadDemoImages();
 });

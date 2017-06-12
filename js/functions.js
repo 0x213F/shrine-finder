@@ -47,7 +47,6 @@ function verifyImage(btnId, iconId, file, idx) {
 
     }
 
-    // https://www.html5rocks.com/en/tutorials/file/dndfiles/
     var reader = new FileReader();
     reader.onload = (function(f) {
         return function(e) {
@@ -96,7 +95,7 @@ function generateMap() {
     highlightShrines("map2", 1);
     document.getElementById("setup").className = "hide";
     document.getElementById("zoom").className = "zoom";
-    document.body.style.backgroundColor = "#202020";
+    document.body.style.backgroundColor = "#50596c";
     document.getElementById("map1").style.maxWidth = window.innerWidth - 20 + "px";
     document.getElementById("map2").style.maxWidth = window.innerWidth - 20 + "px";
 
@@ -118,7 +117,9 @@ function highlightShrines(canvasId, half) {
                 ga = SYSTEMS.switch720.answers[half].data[idx+1],
                 ba = SYSTEMS.switch720.answers[half].data[idx+2];
 
-            if(isBlue(ra, ga, ba) && !isBlue(rt, gt, bt)) {
+            if(isBlue(ra, ga, ba) && isOrange(rt, gt, bt)) {
+                drawOrangePixel(SYSTEMS.switch720.answers[half].data, idx);
+            } else if(isBlue(ra, ga, ba) && !isBlue(rt, gt, bt)) {
                 drawBluePixel(SYSTEMS.switch720.answers[half].data, idx);
             } else {
                 desaturatePixel(SYSTEMS.switch720.answers[half].data, idx);
@@ -139,11 +140,25 @@ function highlightShrines(canvasId, half) {
         return (r > 36 && r < 156) && (b > 150 && b < 256);
     }
 
+    // approximate range of color values for shrine icons
+    function isOrange(r, g, b) {
+        var t = 50;
+        return (r > 219-t && r < 219+t) && (g > 178-t && g < 178+t) && (b > 108-t && b < 108+t);
+    }
+
     // make pixel at index red
     function drawBluePixel(pixels, idx) {
         pixels[idx+0] = 0;
         pixels[idx+1] = 0;
         pixels[idx+2] = 255;
+        pixels[idx+3] = 255;
+    }
+
+    // make pixel at index red
+    function drawOrangePixel(pixels, idx) {
+        pixels[idx+0] = 255;
+        pixels[idx+1] = 215;
+        pixels[idx+2] = 0;
         pixels[idx+3] = 255;
     }
 
@@ -162,4 +177,6 @@ function highlightShrines(canvasId, half) {
  *      [2] - https://stackoverflow.com/questions/17714742/looping-through-pixels-in-an-image
  *      [3] - https://stackoverflow.com/questions/19338032/canvas-indexsizeerror-index-or-size-is-negative-or-greater-than-the-allowed-a
  *      [4] - https://stackoverflow.com/questions/15504370/html5-canvas-drawimage-not-always-drawing-the-image
+ *      [5] - https://stackoverflow.com/questions/5281430/how-to-change-choose-file-into-browse
+ *      [6] - https://www.html5rocks.com/en/tutorials/file/dndfiles/
  */
