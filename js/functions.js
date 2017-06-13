@@ -9,6 +9,7 @@ function loadDemoImages(idx) {
 
         var img = new Image();
         img.onload = function() {
+            var trim       = SWITCH720;
             var canvas     = document.createElement('canvas');
             canvas.height  = img.height;
             canvas.width   = img.width;
@@ -50,14 +51,13 @@ function verifyImage(btnId, iconId, file, idx) {
     var reader = new FileReader();
     reader.onload = (function(f) {
         return function(e) {
-            console.log(idx);
             var img = new Image();
             img.onload = function() {
-                var canvas     = document.createElement('canvas');             /* [1] */
+                var trim       = img.height === 720 ? SWITCH720 : SWITCH1080;
+                var canvas     = document.createElement('canvas');
                 canvas.height  = img.height;
                 canvas.width   = img.width;
                 canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-                console.log(img.height)
                 var pixels     = canvas.getContext("2d")
                                        .getImageData(trim.SIDE,
                                                      trim["TOP" + idx],
@@ -65,7 +65,6 @@ function verifyImage(btnId, iconId, file, idx) {
                                                      canvas.height - trim["TOP"+idx] - trim["BOT"+idx]);
                 SYSTEMS["switch" + img.height].test[idx] = pixels;
             };
-            console.log(e.target)
             img.src = e.target.result;
         }
     })(file);
@@ -77,6 +76,7 @@ function verifyImage(btnId, iconId, file, idx) {
 }
 
 function imageToCanvas(idx, resolution) {
+    var trim = resolution === 720 ? SWITCH720 : SWITCH1080;
     var img        = SYSTEMS["switch" + resolution].answers[idx];
     var canvas     = document.createElement('canvas');
     canvas.height  = img.height;
@@ -93,6 +93,8 @@ function imageToCanvas(idx, resolution) {
 function generateMap() {
     highlightShrines("map1", 0);
     highlightShrines("map2", 1);
+    document.getElementById("smiley").className = "";
+    document.getElementById("source").className = "";
     document.getElementById("setup").className = "hide";
     document.getElementById("zoom").className = "zoom";
     document.body.style.backgroundColor = "#50596c";
@@ -105,33 +107,38 @@ function generateMap() {
 // paint unvisited shrines red
 function highlightShrines(canvasId, half) {
 
+        var h = SYSTEMS.switch720.test.length === 2 ? 720 : 1080,
+            w = SYSTEMS.switch720.test.length === 2 ? 1280 : 1920,
+            trim = SYSTEMS.switch720.test.length === 2 ? SWITCH720 : SWITCH1080;
+
+
         // iterate through each pixel
-        for(var idx = 0 ; idx < SYSTEMS.switch720.test[half].data.length ; idx += 4) {        /* [2] */
+        for(var idx = 0 ; idx < SYSTEMS["switch"+h].test[half].data.length ; idx += 4) {        /* [2] */
 
             /* NOTE: ignore the opacity parameter */
 
-            var rt = SYSTEMS.switch720.test[half].data[idx+0],
-                gt = SYSTEMS.switch720.test[half].data[idx+1],
-                bt = SYSTEMS.switch720.test[half].data[idx+2],
-                ra = SYSTEMS.switch720.answers[half].data[idx+0],
-                ga = SYSTEMS.switch720.answers[half].data[idx+1],
-                ba = SYSTEMS.switch720.answers[half].data[idx+2];
+            var rt = SYSTEMS["switch"+h].test[half].data[idx+0],
+                gt = SYSTEMS["switch"+h].test[half].data[idx+1],
+                bt = SYSTEMS["switch"+h].test[half].data[idx+2],
+                ra = SYSTEMS["switch"+h].answers[half].data[idx+0],
+                ga = SYSTEMS["switch"+h].answers[half].data[idx+1],
+                ba = SYSTEMS["switch"+h].answers[half].data[idx+2];
 
             if(isBlue(ra, ga, ba) && isOrange(rt, gt, bt)) {
-                drawOrangePixel(SYSTEMS.switch720.answers[half].data, idx);
+                drawOrangePixel(SYSTEMS["switch"+h].answers[half].data, idx);
             } else if(isBlue(ra, ga, ba) && !isBlue(rt, gt, bt)) {
-                drawBluePixel(SYSTEMS.switch720.answers[half].data, idx);
+                drawBluePixel(SYSTEMS["switch"+h].answers[half].data, idx);
             } else {
-                desaturatePixel(SYSTEMS.switch720.answers[half].data, idx);
+                desaturatePixel(SYSTEMS["switch"+h].answers[half].data, idx);
             }
 
         }
 
         var canvas     = document.getElementById(canvasId);             /* [1] */
         // repaint the image on the canvas
-        canvas.height    = 720 - trim["TOP" + half] - trim["BOT" + half];
-        canvas.width     = 1280 - trim.SIDE*2;
-        canvas.getContext('2d').putImageData(SYSTEMS.switch720.answers[half], 0, 0);
+        canvas.height    = h - trim["TOP" + half] - trim["BOT" + half];
+        canvas.width     = w - trim.SIDE*2;
+        canvas.getContext('2d').putImageData(SYSTEMS["switch"+h].answers[half], 0, 0);
         canvas.className = 'photo center';
                                              /* [4] */
 
