@@ -25,7 +25,11 @@ function loadDemoImages(idx) {
         img.src = "./media/tests/test" + (idx + 1) + ".png";
     }
 
-    loadImage(0);
+    document.getElementById("generate").firstChild.data = "🤔";
+    document.getElementById("generate").className = "btn btn-primary disabled";
+    setTimeout(function() {
+        loadImage(0);
+    });
 }
 
 function verifyImage(btnId, iconId, file, idx) {
@@ -91,16 +95,19 @@ function imageToCanvas(idx, resolution) {
 }
 
 function generateMap() {
-    highlightShrines("map1", 0);
-    highlightShrines("map2", 1);
-    document.getElementById("smiley").className = "";
-    document.getElementById("source").className = "";
-    document.getElementById("setup").className = "hide";
-    document.getElementById("zoom").className = "zoom";
-    document.body.style.backgroundColor = "#50596c";
-    document.getElementById("map1").style.maxWidth = window.innerWidth - 20 + "px";
-    document.getElementById("map2").style.maxWidth = window.innerWidth - 20 + "px";
-
+    document.getElementById("generate").className = "btn btn-primary disabled";
+    document.getElementById("generate").firstChild.data = "🤔";
+    setTimeout(function() {
+        highlightShrines("map1", 0);
+        highlightShrines("map2", 1);
+        document.getElementById("smiley").className = "";
+        document.getElementById("source").className = "";
+        document.getElementById("setup").className = "hide";
+        document.getElementById("zoom").className = "zoom";
+        document.body.style.backgroundColor = "#50596c";
+        document.getElementById("map1").style.maxWidth = window.innerWidth - 20 + "px";
+        document.getElementById("map2").style.maxWidth = window.innerWidth - 20 + "px";
+    }, 100);
 }
 
 // TODO impliment comparison with master image
@@ -186,4 +193,5 @@ function highlightShrines(canvasId, half) {
  *      [4] - https://stackoverflow.com/questions/15504370/html5-canvas-drawimage-not-always-drawing-the-image
  *      [5] - https://stackoverflow.com/questions/5281430/how-to-change-choose-file-into-browse
  *      [6] - https://www.html5rocks.com/en/tutorials/file/dndfiles/
+ *      [7] - https://stackoverflow.com/questions/12679813/how-to-change-button-text-or-link-text-in-javascript
  */
